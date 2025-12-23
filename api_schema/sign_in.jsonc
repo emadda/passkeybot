@@ -1,0 +1,133 @@
+// This JSON structure is returned from:
+// HTTP POST https://api.passkeybot.com/api/v1/get_sign_in_once
+// {"sign_in_id": "x"}
+{
+    "sign_in": {
+        // Indicates whether this is the first time this specific passkey has been used.
+        "is_first_use_of_passkey": true,
+
+        // Passkeybot ID
+        "sign_in_id": "sign_in_cfdefc55dc43790775fe3a7dec416fb942cdb85a99507abddc20c2a64963bb47",
+
+        // RP (Requesting Party) domain of the passkey. Check this matches your domain in your handler.
+        // - Will be identical to `verify_output.authenticationInfo.rpID`
+        "domain": "demo.enzom.dev",
+
+        // Passkeybot ID
+        // One user has many emails, one email has many passkeys.
+        // - The user can create many active passkeys using the same email address, but in that case they way always have the same user_id.
+        // - In the future users may be able to also add more email addresses to their account, in that case they will also have the same user_id.
+        // - Treat user_id as the static reference to a given user account.
+        "user_id": "user_4c5b7d44bfbc7d024be7d2386819f08b",
+
+        // Passkeybot ID for the passkey used.
+        // - Equals `cred_pub_key_bytes.to_sha256().to_hex()`
+        "passkey_id": "passkey_bffeb62cee84ce0bea8d1a507be8101d3ce12dd56b0409b2f100cb70d0049dfe",
+
+        // JS credential ID.
+        "cred_id_b64": "v_62LO6EzgvqjRpQe-gQHTzhLdVrBAmy8QDLcNAEnf4",
+
+        // JS credential public key.
+        "cred_pub_key_b64": "pAEBAycgBiFYIMHk2QRP9i4xYzwF8FsUPbpTbrE-MENxfA3sWESP0BU4",
+
+        // The name of the passkey as shown in the passkey chooser list client side.
+        // The trailing number is the passkey counter number for when a user creates many passkeys with the same email address.
+        "passkey_name": "contact.enzo.m@gmail.com • 13",
+
+        // This is shown in the client side UI. For logic use `domain` instead as this can be changed and is only a UI label.
+        "passkey_rp_name": "demo.enzom.dev",
+
+        // JS randomly generated "user_id" assigned to this passkey. Not currently used, only set because of the JS API convention.
+        // - In the future it may be used for replacing or deleting specific keys from JS.
+        "passkey_uid": "I-NJQTDouej7_gtQIq6HRt8vjlTyRRc7ynHkMkavyAQ",
+
+        // Passkeybot ID
+        // Every email gets a unique ID to clearly show how the email normalization maps to a given ID.
+        // - Minimal email normalization occurs, users should verify the exact email they entered.
+        "email_id": "email_c1f530191df9e20c18695c63e7ab3f18",
+
+        // Normalized email address used for the passkey.
+        "email": "contact.enzo.m@gmail.com",
+
+        // Timestamp of sign in.
+        // - You do not need to check this is within a time limit because it is built in to the API response - the API will not return a previously used or expired sign_in_id.
+        "ts": "2025-12-17T20:26:22.005Z"
+    },
+
+    // This is set if the POST body JSON has the key/value `include: "verify"`.
+    // - You can use the NPM package `@simplewebauthn/server` to re-verify this, but Passkeybot already does this and only returns a sign_in JSON object if it successfully verifies.
+    "verify": {
+        // Pass this object to `@simplewebauthn/server` verifyAuthenticationResponse(x).
+        "verify_input": {
+            "response": {
+                "id": "v_62LO6EzgvqjRpQe-gQHTzhLdVrBAmy8QDLcNAEnf4",
+                "rawId": "v_62LO6EzgvqjRpQe-gQHTzhLdVrBAmy8QDLcNAEnf4",
+                "type": "public-key",
+                "response": {
+                    "authenticatorData": "tYIDwhgT19hkl_J2IXp-hfKZdis3zUTSk1HmJ2VYyPEFAAAAAg",
+                    "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoibHlXMl9pZjRvMldyWnRNdWdWV0pOWmlIOG9ycDZQQVY5YkhJUmtFRFNmVSIsIm9yaWdpbiI6Imh0dHBzOi8vcGFzc2tleWJvdC5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
+                    "signature": "l3vnaa-HWrsO6ZgHVpAqqfdhx9BpoLZVahoTgypgCbF52vwnSkUMFkwSt2SuST_6m0koJaWyLMV7GTBxLU4uDg",
+                    "userHandle": "I-NJQTDouej7_gtQIq6HRt8vjlTyRRc7ynHkMkavyAQ"
+                },
+                "authenticatorAttachment": "platform",
+                "clientExtensionResults": {}
+            },
+            "expectedChallenge": "lyW2_if4o2WrZtMugVWJNZiH8orp6PAV9bHIRkEDSfU",
+            "expectedOrigin": [
+                "https://passkeybot.com"
+            ],
+            "expectedRPID": "demo.enzom.dev",
+            "expectedType": "webauthn.get",
+            "credential": {
+                "id": "v_62LO6EzgvqjRpQe-gQHTzhLdVrBAmy8QDLcNAEnf4",
+                "publicKey": "pAEBAycgBiFYIMHk2QRP9i4xYzwF8FsUPbpTbrE-MENxfA3sWESP0BU4",
+                "counter": 1
+            }
+        },
+
+        // The output returned from `@simplewebauthn/server` verifyAuthenticationResponse(x).
+        "verify_output": {
+            "verified": true,
+            "authenticationInfo": {
+                "newCounter": 2,
+                "credentialID": "v_62LO6EzgvqjRpQe-gQHTzhLdVrBAmy8QDLcNAEnf4",
+                "userVerified": true,
+                "credentialDeviceType": "singleDevice",
+                "credentialBackedUp": false,
+                "origin": "https://passkeybot.com",
+                // This is copied to `sign_in.domain` above.
+                "rpID": "demo.enzom.dev"
+            }
+        },
+
+        // Parsed version of `signed_message_str` for easy access.
+        "signed_msg": {
+            "code_challenge": "3aa06af5e599e9588ee9e747837a2e11ef642c1a87fcd7afda847559917fb295",
+            "activation_code_hex": "23d1b3b0189046510a76c3f586ed917d",
+            "email": "contact.enzo.m@gmail.com",
+            "email_id": "email_c1f530191df9e20c18695c63e7ab3f18",
+            "email_bytes_sha256_hex": "e00935def5a0ead113be2e78e2f78cc1567acf0047cab7649a0d725e395290fb",
+            "ts": "2025-12-17T20:26:21.748Z",
+            // At least 256 bits of randomness should be included in the challenge, this ensures that requirement is met.
+            "random_bytes_hex": "e0501b0c244d7a0f4cbe49aef8be032ee4067c6e985933543a751d09415d8a3e"
+        },
+
+        // The exact string of bytes that was passed to sha256(x), with that sha256 being used in the `challenge`.
+        // - The exact bytes are important which is why it is a string and not a parsed JSON object.
+        "signed_msg_str": "{\"code_challenge\":\"3aa06af5e599e9588ee9e747837a2e11ef642c1a87fcd7afda847559917fb295\",\"activation_code_hex\":\"23d1b3b0189046510a76c3f586ed917d\",\"email\":\"contact.enzo.m@gmail.com\",\"email_id\":\"email_c1f530191df9e20c18695c63e7ab3f18\",\"email_bytes_sha256_hex\":\"e00935def5a0ead113be2e78e2f78cc1567acf0047cab7649a0d725e395290fb\",\"ts\":\"2025-12-17T20:26:21.748Z\",\"random_bytes_hex\":\"e0501b0c244d7a0f4cbe49aef8be032ee4067c6e985933543a751d09415d8a3e\"}"
+    },
+
+    // This is set if the POST body JSON has the key/value `include: "verify"`.
+    // - Email is only included for the first sign in event for that email (when it is new).
+    // - This allows you to verify the email DKIM headers.
+    // - Passkeybot already does this step to ensure the `From` header is valid.
+    "email_received": {
+        // sha256 hash of the email content. Used in signing.
+        "email_bytes_sha256_hex": "e00935def5a0ead113be2e78e2f78cc1567acf0047cab7649a0d725e395290fb",
+
+        // Exact plain text email in .eml format.
+        // - Use this to verify the email was sent from the correct address and not spoofed.
+        "email_bytes_b64": "<redacted>",
+        "email_received_ts": "2025-12-17T20:26:07.984Z"
+    }
+}

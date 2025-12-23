@@ -1,0 +1,15 @@
+{
+    "name": "example_http_server",
+    "private": true,
+    "devDependencies": {
+        "@types/bun": "latest",
+        "@types/lodash": "^4.17.21"
+    },
+    "peerDependencies": {
+        "typescript": "^5"
+    },
+    "dependencies": {
+        "@simplewebauthn/server": "^13.2.2",
+        "lodash": "^4.17.21"
+    }
+}
